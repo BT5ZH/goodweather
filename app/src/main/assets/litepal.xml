@@ -1,0 +1,10 @@
+<litepal>
+    <dbname value="good_weather"/>
+    <version value="1"/>
+    <list>
+        <mapping class="com.example.btzhang.goodweather.db.Province"/>
+        <mapping class="com.example.btzhang.goodweather.db.City"/>
+        <mapping class="com.example.btzhang.goodweather.db.Country"/>
+    </list>
+
+</litepal>
