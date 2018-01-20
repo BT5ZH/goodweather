@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.example.btzhang.goodweather.db.City;
 import com.example.btzhang.goodweather.db.Country;
 import com.example.btzhang.goodweather.db.Province;
+import com.example.btzhang.goodweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,7 @@ public class Utility {
                     City city = new City();
                     city.setCityName(cityObject.getString("name"));
                     city.setCityCode(cityObject.getInt("id"));
-                    city.setProvinceId(provinceId);
+                    city.setProvinceId(provinceId);//--------忘记写provinceId一次
                     city.save();
                 }
                 return true;
@@ -61,7 +63,7 @@ public class Utility {
                     Country country = new Country();
                     country.setCountryName(countryObject.getString("name"));
                     country.setWeatherId(countryObject.getString("weather_id"));
-                    country.setCityId(cityId);
+                    country.setCityId(cityId);//--------写错过一次”city_id“
                     country.save();
                 }
                 return true;
@@ -70,5 +72,17 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    public static Weather handleWeatherResponse(String reponse) {
+        try {
+            JSONObject jsonObject = new JSONObject(reponse);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
